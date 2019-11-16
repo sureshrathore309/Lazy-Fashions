@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="data" format="json">
+      <types:shape format="weave" example="example.json"><![CDATA[%dw 2.0
+
+type data = Array<{|  state__c: String,   address__c: Null,   pin__c: String,   customer_id__c: String,   city__c: String,   First_Name__c: String,   Id: Null,   "type": String,   Last_Name__c: String|}> {"example": "[{\"state__c\":\"Baner, Pune\",\"address__c\":null,\"pin__c\":\"411045\",\"customer_id__c\":\"1000\",\"city__c\":\"Pune\",\"First_Name__c\":\"Suresh\",\"Id\":null,\"type\":\"Account\",\"Last_Name__c\":\"Rathore\"},{\"state__c\":\"Baner, Pune\",\"address__c\":null,\"pin__c\":\"411045\",\"customer_id__c\":\"1001\",\"city__c\":\"Pune\",\"First_Name__c\":\"Kumar\",\"Id\":null,\"type\":\"Account\",\"Last_Name__c\":\"Rathore\"},{\"state__c\":\"Baner, Pune\",\"address__c\":null,\"pin__c\":\"411045\",\"customer_id__c\":\"1002\",\"city__c\":\"Pune\",\"First_Name__c\":\"Chetan\",\"Id\":null,\"type\":\"Account\",\"Last_Name__c\":\"Joshi\"}]"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#ffebe776-086a-4298-b740-3b1e1ecd85f1">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="data"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

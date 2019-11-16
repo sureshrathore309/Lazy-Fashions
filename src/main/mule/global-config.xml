@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd 
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+	
+	    <apikit:config name="lazy-fashions-config" raml="lazy-fashions.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />	
+	<http:listener-config name="lazy-fashions-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="8081" />
+    </http:listener-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="98095e7e-3e81-479e-a265-69131cd3f24e" file="config.yaml" />
+	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="fbda845c-5de5-441f-9c42-8952a907e38c" >
+		<salesforce:cached-basic-connection username="${salesforce.userName}" password="${salesforce.password}" securityToken="${salesforce.securityToken}" url="${salesforce.tokenUrl}" />
+	</salesforce:sfdc-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="e2523078-1ca1-410a-8ca9-5d4ae68cf05c" >
+		<db:my-sql-connection host="${database.host}" port="${database.port}" user="${database.userName}" password="${database.password}" database="${database.databaseName}" />
+	</db:config>
+</mule>

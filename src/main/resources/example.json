@@ -1,0 +1,35 @@
+[
+  {
+    "state__c": "Baner, Pune",
+    "address__c": null,
+    "pin__c": "411045",
+    "customer_id__c": "1000",
+    "city__c": "Pune",
+    "First_Name__c": "Suresh",
+    "Id": null,
+    "type": "Account",
+    "Last_Name__c": "Rathore"
+  },
+  {
+    "state__c": "Baner, Pune",
+    "address__c": null,
+    "pin__c": "411045",
+    "customer_id__c": "1001",
+    "city__c": "Pune",
+    "First_Name__c": "Kumar",
+    "Id": null,
+    "type": "Account",
+    "Last_Name__c": "Rathore"
+  },
+  {
+    "state__c": "Baner, Pune",
+    "address__c": null,
+    "pin__c": "411045",
+    "customer_id__c": "1002",
+    "city__c": "Pune",
+    "First_Name__c": "Chetan",
+    "Id": null,
+    "type": "Account",
+    "Last_Name__c": "Joshi"
+  }
+]

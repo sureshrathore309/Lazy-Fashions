@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	
+	<flow name="craete-customer-implementionFlow" doc:id="abd936dc-5e2a-48b9-8ce5-978daa894c80" >
+		<salesforce:create doc:name="Create Customer" doc:id="7ff71e7a-9dcb-4802-9cc6-7d5dc5ce1f1e" config-ref="Salesforce_Config" type="account">
+			<salesforce:records ><![CDATA[#[output application/java
+---
+[{
+	First_Name__c: payload.firstName,
+	Last_Name__c: payload.lastName,
+	city__c: payload.city,
+	pin__c: payload.pin,
+	state__c: payload.state,
+	address__c: payload.address,
+	Name: "Rathore" ++ randomInt(10000)
+	}
+	]]]]></salesforce:records>
+		</salesforce:create>
+		<ee:transform doc:name="Success Response with ID" doc:id="29d18975-d0d0-4686-ab08-e8b274e4244d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"id": payload[0].id
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="get-customer-by-id-implementionFlow1" doc:id="eae868bc-1456-40a4-aedc-bbf145a38f40" >
+		<salesforce:query doc:name="Retrieve Customer Detail By Id" doc:id="8194f50b-2cfb-45f5-8f2d-d12f2dc7537d" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query >select First_Name__c, Last_Name__c ,city__c, pin__c, state__c, address__c  from account where id = ':id'</salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	"id" : vars.id as number
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform doc:name="JAVA to JSON" doc:id="e9f88fd3-e195-46e8-8869-f81891b39608" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="get-customers-implementionFlow2" doc:id="659c9949-6eb1-4de8-88e9-4f2daab3e698" >
+		<salesforce:query-all doc:name="Reqtrieve All Customer Details" doc:id="435730a3-36c7-4aa0-9c73-2ff784fa465d" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query >select First_Name__c, Last_Name__c ,city__c, pin__c, state__c, address__c, customer_id__c  from account where First_Name__c!=null</salesforce:salesforce-query>
+		</salesforce:query-all>
+		<ee:transform doc:name="JAVA to JSON" doc:id="2029b7ee-c11d-4862-89e7-55f6c5b05a22" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="update-customer-implementionFlow" doc:id="934ed79f-db11-466a-a1c0-7a16dfc7798c" >
+		<salesforce:update-single type="Account" doc:name="Update Customer Info" doc:id="ebfccc4a-2f55-48f6-b016-221940a9c40c" config-ref="Salesforce_Config">
+		</salesforce:update-single>
+		<ee:transform doc:name="Success Response" doc:id="9a71e342-f12f-4dc1-b670-0a6c2c423d5f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "status": payload.success
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

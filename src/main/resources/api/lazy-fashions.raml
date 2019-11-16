@@ -1,0 +1,93 @@
+#%RAML 1.0
+version: 1
+title: Lazy-Fashions
+types:
+  customer: !include dataTypes/customer.raml
+  errorResponse: !include dataTypes/ErrorResponse.raml
+  successResponse: !include dataTypes/SuccessResponse.raml
+traits: 
+  CustomerSearch: !include traits/trait-collection.raml
+/customer:
+  description: |
+    Working with customers:
+    * Retrieving all customers
+    * Creating customer
+    * Retrieve Specific Customer info
+    is: [ CustomerSearch ] 
+  post:
+    displayName: Create Customer
+    description: |
+      Create a new Customer
+    body:
+      application/json:
+        type: customer          
+        example: !include example/postCustomer.raml          
+    responses:
+      201:
+        description: Created
+        body:
+          application/json:
+            type: customer
+            example: |
+                {
+                  "customerId": 1
+                }
+  get:
+    displayName: Get Customers
+    description: |
+      Retrieve all the Customer according to the filtering.       
+    responses:
+      200:
+        body:
+          application/json:
+            type: customer[]
+            example: !include example/getCustomers.raml
+  /{customerId}:
+      description: |
+        Working with customer:
+        * Retrieving specific customer
+      uriParameters:
+        customerId:
+          type: integer
+          description: Represents the customer ID of native system
+      get:
+        displayName: Get customer by id
+        description: Get customer by ID
+        responses:
+          200:
+            body:
+              application/json:
+                type: customer
+                example: !include example/getCustomerById.raml
+          404:
+            body:
+              application/json:
+                type: errorResponse
+                example: |
+                  {
+                  "message": "Resource not found"
+                  }
+  patch:
+    displayName: Update customer by id
+    description: Update customer specified by ID
+    body:
+        application/json:
+          type: customer
+          example: !include example/updateCustomer.raml
+    responses:
+      200:
+        body:
+          application/json:
+            type: successResponse
+            example: |
+                {
+                  "status": "true"
+                }
+      404:
+          body:
+            application/json:
+              type: errorResponse
+              example: |
+                {
+                  "message": "Resource not found"
+                }

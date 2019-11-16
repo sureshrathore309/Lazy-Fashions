@@ -1,0 +1,11 @@
+salesforce:
+  userName: "suresh.rathore@apisero.com"
+  password: "Suresh@1234"
+  tokenUrl: "https://login.salesforce.com/services/Soap/u/46.0"
+  securityToken: "LbRRi1sR19To6D5ZjlT44f0d"
+database:
+  host: "db4free.net"
+  port: "3306"
+  userName: "sureshrathore308"
+  password: "Apisero@123"
+  databaseName: "apisero"
